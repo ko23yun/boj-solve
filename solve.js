@@ -1,30 +1,54 @@
 // 문제 풀고 나서 add, commit 해주기
-// https://velog.io/@exploit017/%EB%B0%B1%EC%A4%80Node.js-1316%EB%B2%88-%EA%B7%B8%EB%A3%B9-%EB%8B%A8%EC%96%B4-%EC%B2%B4%EC%BB%A4 참고...
 const fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().split("\n");
+let input = fs.readFileSync("./input.txt").toString().toUpperCase();
 
-let N = Number(input[0]);
-let countGroupWord = 0;
+let arr = [];
 
-for (let i = 1; i <= N; i++) {
-  const word = input[i];
-  const letter = [];
-  let isGroupWord = true;
+arr.push(input[0]);
 
-  for (let j = 0; j < input[i]; j++) {
-    if (letter.indexOf(word[j]) === -1) {
-      letter.push(word[j]);
-    } else {
-      if (letter.indexOf(word[j]) !== letter.length - 1) {
-        isGroupWord = false;
-        break;
-      }
+for (let i = 1; i < input.length; i++) {
+  for (let j = 0; j < arr.length; j++) {
+    // input[i] 가 arr에 들어있는지 확인!!
+    if (arr.indexOf(input[i]) == -1) {
+      arr.push(input[i]);
     }
-  }
-
-  if (isGroupWord) {
-    countGroupWord += 1;
   }
 }
 
-console.log(countGroupWord);
+let newArr = [];
+
+for (let i = 0; i < arr.length; i++) {
+  let count = 0;
+
+  for (let j = 0; j < input.length; j++) {
+    if (arr[i] == input[j]) {
+      count++;
+    }
+  }
+
+  newArr.push(count);
+}
+
+let max = newArr[0];
+
+for (let i = 0; i < newArr.length; i++) {
+  if (max < newArr[i]) {
+    max = newArr[i];
+  }
+}
+
+let countMax = 0;
+
+for (let i = 0; i < newArr.length; i++) {
+  if (max == newArr[i]) {
+    countMax++;
+  }
+}
+
+if (countMax > 1) {
+  // 최댓값이 겹치는 경우
+  console.log("?");
+} else if (countMax == 1) {
+  // 최댓값이 하나인 경우
+  console.log(arr[newArr.indexOf(max)]);
+}
