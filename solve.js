@@ -1,19 +1,15 @@
 // 문제 풀고 나서 add, commit 해주기
 const fs = require("fs");
-const { isRegExp } = require("util");
-let input = fs
-  .readFileSync("./input.txt")
-  .toString()
-  .split("")
-  .map((v) => v.toUpperCase());
+let input = fs.readFileSync("./input.txt").toString();
 
-// for loop 사용해서 indexof 로 값이 같다면 account에 추가해주기
-// 출력은 반드시 대문자
+let word = ["c=", "c-", "dz=", "d-", "lj", "nj", "s=", "z="];
 
-let arr = [];
+// word 단어 있는지 전체 확인, 그리고 제거!
 
-for (let i = 0; i < input.length; i++) {
-  arr.push(input.filter((x) => input[i] === x));
+let count = 0;
+
+for (let i = 0; i < word.length; i++) {
+  if (input.indexOf(word[i]) > -1) {
+    count++;
+  }
 }
-
-console.log(arr);
