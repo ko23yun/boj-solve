@@ -6,31 +6,34 @@ const input = fs
   .split("\n")
   .map((v) => +v);
 
-let minPrime = 0;
-let countPrime = 0;
+// 함수를 2개 만들어야 하나??
 
-function addPrimeNumbes(n) {
-  if (n < 2) {
+let count = 0;
+
+function checkPrime(number) {
+  if (number < 2) {
     return;
   }
 
-  for (let i = 2; i < n; i++) {
-    if (n % i === 0) {
+  for (let i = 2; i < number; i++) {
+    if (number % i === 0) {
       return;
     }
   }
+  count++;
+}
 
-  if (minPrime === 0) {
-    minPrime = n;
+function primeNumber(n) {
+  for (let i = n; i <= n * 2; i++) {
+    checkPrime(i);
   }
 
-  countPrime += n;
+  console.log(count);
+  count = 0;
 }
 
-for (let i = input[0]; i <= input[1]; i++) {
-  addPrimeNumbes(i);
+// primeNumber(13);
+
+for (let i = 0; i < input.length - 1; i++) {
+  primeNumber(input[i]);
 }
-
-let answer = countPrime + "\n" + minPrime;
-
-console.log(minPrime !== 0 ? answer : -1);
