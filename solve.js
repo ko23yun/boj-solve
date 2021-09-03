@@ -1,39 +1,34 @@
 // 문제 풀고 나서 add, commit 해주기
-const fs = require("fs");
-const input = fs
+let fs = require("fs");
+let input = fs
   .readFileSync("./input.txt")
   .toString()
-  .split("\n")
+  .split(" ")
   .map((v) => +v);
 
-// 함수를 2개 만들어야 하나??
+let N = input[0];
+let M = input[1];
+let isPrimeNumber = Array(M + 1).fill(true);
+isPrimeNumber[0] = isPrimeNumber[1] = false;
 
-let count = 0;
-
-function checkPrime(number) {
-  if (number < 2) {
-    return;
-  }
-
-  for (let i = 2; i < number; i++) {
-    if (number % i === 0) {
-      return;
+function result() {
+  for (let i = 2; i <= Math.ceil(Math.sqrt(M)); i++) {
+    if (isPrimeNumber[i]) {
+      let m = 2;
+      while (i * m <= M) {
+        isPrimeNumber[i * m] = false;
+        m++;
+      }
     }
   }
-  count++;
-}
 
-function primeNumber(n) {
-  for (let i = n; i <= n * 2; i++) {
-    checkPrime(i);
+  let results = [];
+  for (let i = N; i < M; i++) {
+    if (isPrimeNumber[i]) {
+      results.push(i);
+    }
   }
-
-  console.log(count);
-  count = 0;
+  console.log(results.join("\n"));
 }
 
-// primeNumber(13);
-
-for (let i = 0; i < input.length - 1; i++) {
-  primeNumber(input[i]);
-}
+result();
