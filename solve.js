@@ -3,15 +3,20 @@ let fs = require("fs");
 let input = fs
   .readFileSync("./input.txt")
   .toString()
-  .split(" ")
+  .split("\n")
   .map((v) => +v);
 
-let N = input[0];
-let M = input[1];
-let isPrimeNumber = Array(M + 1).fill(true);
-isPrimeNumber[0] = isPrimeNumber[1] = false;
+input.pop();
 
-function result() {
+function result(num) {
+  let answer = [];
+
+  let N = num;
+  let M = num * 2;
+
+  let isPrimeNumber = Array(M + 1).fill(true);
+  isPrimeNumber[0] = isPrimeNumber[1] = false;
+
   for (let i = 2; i <= Math.ceil(Math.sqrt(M)); i++) {
     if (isPrimeNumber[i]) {
       let m = 2;
@@ -22,13 +27,19 @@ function result() {
     }
   }
 
-  let results = [];
-  for (let i = N; i < M; i++) {
-    if (isPrimeNumber[i]) {
-      results.push(i);
+  for (let i = N + 1; i <= M; i++) {
+    if (isPrimeNumber[i] === true) {
+      answer.push(i);
     }
   }
-  console.log(results.join("\n"));
+
+  console.log(answer.length);
+
+  answer = 0;
 }
 
-result();
+// result(13);
+
+for (let i = 0; i < input.length; i++) {
+  result(input[i]);
+}
