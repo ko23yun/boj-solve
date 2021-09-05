@@ -9,7 +9,7 @@ let input = fs
 input.pop();
 
 function result(num) {
-  let answer = [];
+  let answer = 0;
 
   let N = num;
   let M = num * 2;
@@ -28,14 +28,14 @@ function result(num) {
   }
 
   for (let i = N + 1; i <= M; i++) {
-    if (isPrimeNumber[i] === true) {
-      answer.push(i);
+    if (isPrimeNumber[i]) {
+      answer++;
     }
   }
 
-  console.log(answer.length);
+  console.log(answer);
 
-  answer = 0;
+  // answer = [];
 }
 
 // result(13);
