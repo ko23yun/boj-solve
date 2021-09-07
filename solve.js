@@ -1,27 +1,12 @@
 // add, commit, push 해주기!!!
 let fs = require("fs");
-const { promisify } = require("util");
 let input = fs.readFileSync("./input.txt").toString().trim();
 
-let list = {
-  value: 1,
-  next: {
-    value: 2,
-    next: {
-      value: 3,
-      next: {
-        value: 4,
-        next: null,
-      },
-    },
-  },
-};
+let N = Number(input);
 
-function printList(list) {
-  if (list.next) {
-    printList(list.next);
-  }
-  console.log(list.value);
+function factorial(n) {
+  if (n <= 1) return 1;
+  return n * factorial(n - 1);
 }
 
-printList(list);
+console.log(factorial(N));
