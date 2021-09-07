@@ -1,12 +1,27 @@
+// add, commit, push 해주기!!!
 let fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
+const { promisify } = require("util");
+let input = fs.readFileSync("./input.txt").toString().trim();
 
-input.pop();
+let list = {
+  value: 1,
+  next: {
+    value: 2,
+    next: {
+      value: 3,
+      next: {
+        value: 4,
+        next: null,
+      },
+    },
+  },
+};
 
-for (let i = 0; i < input.length; i++) {
-  let arr = input[i].split(" ").map((v) => +v);
-
-  arr.sort((a, b) => a - b);
-
-  console.log(arr[0] ** 2 + arr[1] ** 2 === arr[2] ** 2 ? "right" : "wrong");
+function printList(list) {
+  if (list.next) {
+    printList(list.next);
+  }
+  console.log(list.value);
 }
+
+printList(list);
