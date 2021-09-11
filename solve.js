@@ -1,22 +1,27 @@
 // add, commit, push 해주기!!!
 let fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
+let input = fs.readFileSync("./input.txt").toString().trim();
 
-let N = Number(input[0].split(" ")[0]);
-let M = Number(input[0].split(" ")[1]);
+let N = Number(input);
+let sixValue = [];
+// 666부터 모든 수를 비교해서 2번째 666이 들어가는 수를 뽑아야하겠네
 
-input.shift();
+function tripleSix(n) {
+  let num = String(n);
 
-let chess = input.map((BW) => BW.split(""));
-let firstStat = chess[0][0];
-let chessArr = [];
-
-// console.log(N, M, chess, firstStat);
-
-for (let i = 0; i <= M - 7; i++) {
-  for (let j = 0; j <= M - 7; j++) {
-    chessArr.push(chess[j].slice(0, 8));
+  for (let i = 0; i < num.length - 2; i++) {
+    if (num[i] === "6" && num[i + 1] === "6" && num[i + 2] === "6") {
+      sixValue.push(num);
+    }
   }
 }
 
-console.log(chessArr);
+let n = 666;
+
+while (sixValue.length < N) {
+  tripleSix(n);
+
+  n++;
+}
+
+console.log(sixValue[sixValue.length - 1]);
