@@ -1,24 +1,22 @@
 // add, commit, push 해주기!!!
 let fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim();
+let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-let N = Number(input);
-let arr = [];
+let N = Number(input[0].split(" ")[0]);
+let M = Number(input[0].split(" ")[1]);
 
-for (let i = 1; i < N; i++) {
-  let answer = i;
-  for (let j = 0; j < String(i).length; j++) {
-    answer += Number(String(i)[j]);
-  }
+input.shift();
 
-  if (answer === N) {
-    arr.push(i);
-    // console.log(i);
-    console.log(arr[0]);
-    break;
+let chess = input.map((BW) => BW.split(""));
+let firstStat = chess[0][0];
+let chessArr = [];
+
+// console.log(N, M, chess, firstStat);
+
+for (let i = 0; i <= M - 7; i++) {
+  for (let j = 0; j <= M - 7; j++) {
+    chessArr.push(chess[j].slice(0, 8));
   }
 }
 
-if (arr.length === 0) {
-  console.log(0);
-}
+console.log(chessArr);
