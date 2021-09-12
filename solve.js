@@ -2,27 +2,21 @@
 let fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-let N = Number(input.shift());
-let map = new Map();
-let newArr = [];
+function solution(input) {
+  [n, x] = input;
+  x = x.split(" ").map((v) => +v);
 
-for (let i = 0; i < N; i++) {
-  if (!map.has(input[i])) {
-    map.set(input[i], input[i].length);
+  let answer = [];
+  let set = Array.from(new Set([...x])).sort((a, b) => a - b);
+  let object = {};
+
+  set.forEach((item, idx) => (object[item] = idx));
+
+  for (let i = 0; i < x.length; i++) {
+    answer.push(object[x[i]]);
   }
+
+  return answer.join(" ");
 }
 
-for (let entry of map) {
-  newArr.push(entry);
-}
-
-// 각 단어 길이로 정렬 후 사전 순으로 계산
-newArr.sort().sort((a, b) => {
-  if (a[1] !== b[1]) {
-    return a[1] - b[1];
-  }
-});
-
-for (let i = 0; i < newArr.length; i++) {
-  console.log(newArr[i][0]);
-}
+console.log(solution(input));
