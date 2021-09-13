@@ -1,22 +1,18 @@
 // add, commit, push 해주기!!!
+// Nodemon restarts the server automatically!!
+// npm init 확인해보기!!
 let fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
+let input = fs.readFileSync("./input.txt").toString().trim();
 
-function solution(input) {
-  [n, x] = input;
-  x = x.split(" ").map((v) => +v);
+let radius = +input;
 
-  let answer = [];
-  let set = Array.from(new Set([...x])).sort((a, b) => a - b);
-  let object = {};
-
-  set.forEach((item, idx) => (object[item] = idx));
-
-  for (let i = 0; i < x.length; i++) {
-    answer.push(object[x[i]]);
-  }
-
-  return answer.join(" ");
+function Euclid(radius) {
+  return Math.pow(radius, 2) * Math.PI;
 }
 
-console.log(solution(input));
+function taxi(radius) {
+  return Math.pow(radius, 2) * 2;
+}
+
+console.log(Euclid(radius).toFixed(6));
+console.log(taxi(radius).toFixed(6));
