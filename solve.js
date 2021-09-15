@@ -1,66 +1,44 @@
 // add, commit, push 해주기!!!
-// Nodemon restarts the server automatically!!
-// npm init 확인해보기!!
 let fs = require("fs");
-let input = fs
-  .readFileSync("./input.txt")
-  .toString()
-  .trim()
-  .split("\n")
-  .map((v) => +v);
+let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-let N = input.shift();
+// x1, y1, r1, x2, y2, r2
+// 3
+// 0 0 13 40 0 37
+// 0 0 3 0 7 4
+// 1 1 1 1 1 5
+let T = input.shift();
+input = input.map((xy) => xy.split(" ").map((v) => +v));
 
-// 산술평균 : N개의 수들의 합을 N으로 나눈 값
-// 중앙값 : N개의 수들을 증가하는 순서로 나열했을 경우 그 중앙에 위치하는 값
-// 최빈값 : N개의 수들 중 가장 많이 나타나는 값
-// 범위 : N개의 수들 중 최댓값과 최솟값의 차이
+// 겹치는 부분 1 => 2가지 경우
+// 겹치는 부분 2 => 1가지 경우
+// 겹치는 부분 무한대 => 1가지 경우
 
-let result = [];
+for (let i = 0; i < T; i++) {
+  let [x1, y1, r1, x2, y2, r2] = input[i];
 
-function stat(arr) {
-  if (arr.length === 1) {
-    result.push(arr[0], arr[0], arr[0], 0);
-  } else {
-    // 산술평균
-    let sum = 0;
-    for (let i = 0; i < N; i++) {
-      sum += arr[i] / N;
-    }
-    result.push(Math.round(sum));
-    // 중앙값
-    let centerArr = input;
-    centerArr.sort((a, b) => a - b);
-    result.push(centerArr[Math.floor(N / 2)]);
-    // 최빈값
-    // 셋째 줄에는 최빈값을 출력한다. 여러 개 있을 때에는 최빈값 중 두 번째로 작은 값을 출력한다.
-    let map = new Map();
-    for (let i = 0; i < N; i++) {
-      if (!map.has(input[i])) {
-        map.set(input[i], 1);
-      } else {
-        let num = map.get(input[i]) + 1;
-        map.delete(input[i]);
-        map.set(input[i], num);
-      }
-    }
+  // 두 점 사이의 거리
+  let d = Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+  let rSum = r1 + r2;
+  let rSub = Math.sqrt(Math.pow(r1 - r2, 2));
 
-    let bigNumbers = [];
-    for (entry of map) {
-      bigNumbers.push(entry);
-    }
-    bigNumbers.sort((a, b) => b[1] - a[1]);
-
-    if (bigNumbers[0][1] === bigNumbers[1][1]) {
-      result.push(bigNumbers[1][0]);
+  // 1. 원이 두 점에서 만나는 경우 (두 점)(r2 - r1 < d < r1 + r2)
+  if (d < rSum && d > rSub) {
+    console.log(2);
+    // 2. 두 원이 외접하는 경우 (한 점)( d = r1 + r2)
+    // 3. 두 원이 내접하는 경우 (한 점)( d = r2 - r1 && d != 0)
+  } else if (d === rSum || (d === rSub && d !== 0)) {
+    console.log(1);
+    // 4. 하나의 원이 다른 원을 포함하는 경우 (못 만남)( d < r2 - r1 )
+    // 5. 두 원이 멀리 떨어져 만나지 않는 경우 (못 만남)( d > r1 + r2 )
+  } else if (d < rSub || d > rSum) {
+    console.log(0);
+    // 6. 두 원이 일치하는 경우 (무수히)( d = 0, r1 = r2 )
+  } else if (d === 0) {
+    if (r1 === r2) {
+      console.log(-1);
     } else {
-      result.push(bigNumbers[0][0]);
+      console.log(0);
     }
-    // 범위
-    result.push(input[input.length - 1] - input[0]);
   }
 }
-
-stat(input);
-
-console.log(result.join("\n"));
